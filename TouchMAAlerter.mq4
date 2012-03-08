@@ -8,16 +8,17 @@
 
 //--- input parameters
 
-extern double CatchPips     = 1.5;
-extern double StopLoss      = 10.0;
+extern double CatchPips     = 3;
+extern bool   Trade5EMA     = false;
 extern bool   Trade10EMA    = false;
 extern bool   Trade21EMA    = false;
-extern bool   Trade35SMA    = false;
-extern bool   Trade50EMA    = false;
-extern bool   Trade89EMA    = false;
-extern bool   Trade144EMA   = false;
-extern bool   Trade200SMA   = false;
+extern bool   Trade35SMA    = true;
+extern bool   Trade50EMA    = true;
+extern bool   Trade89EMA    = true;
+extern bool   Trade144EMA   = true;
+extern bool   Trade200SMA   = true;
 
+int Bars5EMA  = 0;
 int Bars10EMA  = 0;
 int Bars21EMA  = 0;
 int Bars35SMA  = 0;
@@ -50,18 +51,11 @@ int start() {
        
       string comment;
 
-      if (Trade35SMA && Bars > Bars35SMA) {
-         comment = "Touch35";
-         double sma35  = iMA(NULL, 0,  35, 0, MODE_SMA, PRICE_CLOSE, 0);
-         price = NormalizeDouble(sma35, digits);
-         Bars35SMA = Bars;
-      } 
-
-      if (Trade50EMA && Bars > Bars50EMA) {
-         comment = "Touch50";
-         double ema50  = iMA(NULL, 0,  50, 0, MODE_EMA, PRICE_CLOSE, 0);
-         price = NormalizeDouble(ema50, digits);
-         Bars50EMA = Bars;
+      if (Trade5EMA && Bars > Bars5EMA) {
+         comment = "Touch5";
+         double ema5  = iMA(NULL, 0,  5, 0, MODE_EMA, PRICE_CLOSE, 0);
+         price = NormalizeDouble(ema5, digits);
+         Bars5EMA = Bars;
       } 
 
       if (Trade10EMA && Bars > Bars10EMA) {
@@ -76,6 +70,20 @@ int start() {
          double ema21  = iMA(NULL, 0,  21, 0, MODE_EMA, PRICE_CLOSE, 0);
          price = NormalizeDouble(ema21, digits);
          Bars21EMA = Bars;
+      } 
+
+      if (Trade35SMA && Bars > Bars35SMA) {
+         comment = "Touch35";
+         double sma35  = iMA(NULL, 0,  35, 0, MODE_SMA, PRICE_CLOSE, 0);
+         price = NormalizeDouble(sma35, digits);
+         Bars35SMA = Bars;
+      } 
+
+      if (Trade50EMA && Bars > Bars50EMA) {
+         comment = "Touch50";
+         double ema50  = iMA(NULL, 0,  50, 0, MODE_EMA, PRICE_CLOSE, 0);
+         price = NormalizeDouble(ema50, digits);
+         Bars50EMA = Bars;
       } 
 
       if (Trade89EMA && Bars > Bars89EMA) {
