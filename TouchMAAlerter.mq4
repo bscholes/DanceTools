@@ -6,9 +6,42 @@
 #property copyright "Hans Baier"
 #property link      ""
 
+//---- let's define nShowCmd values
+#define SW_HIDE 0
+#define SW_SHOWNORMAL 1
+#define SW_NORMAL 1
+#define SW_SHOWMINIMIZED 2
+#define SW_SHOWMAXIMIZED 3
+#define SW_MAXIMIZE 3
+#define SW_SHOWNOACTIVATE 4
+#define SW_SHOW 5
+#define SW_MINIMIZE 6
+#define SW_SHOWMINNOACTIVE 7
+#define SW_SHOWNA 8
+#define SW_RESTORE 9
+#define SW_SHOWDEFAULT 10
+#define SW_FORCEMINIMIZE 11
+#define SW_MAX 11
+
+//---- we need to define import of SHELL32 DLL
+#import "shell32.dll"
+//---- defining ShellExecute
+/* Normally we should define ShellExecute like this:
+int ShellExecuteA(int hWnd,string lpVerb,string lpFile,string lpParameters,string lpDirectory,int nCmdShow);
+
+But, we need to keep lpVerb,lpParameters and lpDirectory as NULL pointer to this function*/
+//---- So we need to define it as (look: "string" parameters defined as "int" to keep them NULL):
+int ShellExecuteA(int hWnd,int lpVerb,string lpFile,int lpParameters,int lpDirectory,int nCmdShow);
+//---- we need to close import definition here
+#import
+
 //--- input parameters
 
 extern double CatchPips     = 3;
+extern bool   AlertPopup    = true;
+extern bool   AlertExe      = false;
+extern string Cmdline       = "notepad.exe";
+
 extern bool   Trade5EMA     = false;
 extern bool   Trade10EMA    = true;
 extern bool   Trade21EMA    = false;
@@ -18,7 +51,17 @@ extern bool   Trade89EMA    = true;
 extern bool   Trade144EMA   = true;
 extern bool   Trade200SMA   = true;
 
-int Bars5EMA  = 0;
+extern bool   AlertMail     = false;
+extern string MailBodyLine1 = "";
+extern string MailBodyLine2 = "";
+extern string MailBodyLine3 = "";
+extern string MailBodyLine4 = "";
+extern string MailBodyLine5 = "";
+extern string MailBodyLine6 = "";
+
+extern bool   debug         = false;
+
+int Bars5EMA   = 0;
 int Bars10EMA  = 0;
 int Bars21EMA  = 0;
 int Bars35SMA  = 0;
@@ -27,10 +70,7 @@ int Bars89EMA  = 0;
 int Bars144EMA  = 0;
 int Bars200SMA  = 0;
 
-
-extern bool   debug = true;
-
-
+string mailBody = "";
 double multiplier = 1.0;
 int digits;
 
@@ -38,6 +78,8 @@ int init() {
    digits = MarketInfo(Symbol(), MODE_DIGITS);
    if (digits == 5) multiplier = 10.0;
    Print("TouchEAAlerter init... happy trading...");
+   
+   mailBody = MailBodyLine1 + "\n" + MailBodyLine2 + "\n" + MailBodyLine3  + "\n" + MailBodyLine4 + "\n" + MailBodyLine5 + "\n" + MailBodyLine6;
 
    return(0);
 }
@@ -46,10 +88,7 @@ int deinit() {
    return(0);
 }
 
-int start() {
-   
-
-   
+int start() {  
    double price  = 0.0;
    double spread = Ask - Bid;
        
@@ -131,10 +170,27 @@ int checkTouch(double price, string comment) {
       double distance = MathAbs(Bid - price);
       if(distance < CatchPips * Point * multiplier) {
          distance /= Point * multiplier;
-         Alert("PriceAlert " + comment + " on " + Symbol() + " " + Period() + " price: " + price + " distance " + distance);
+         
+         string alertString = "PriceAlert " + comment + " on " + Symbol() + " " + Period() + " price " + price + " distance " + distance;
+         
+         if (AlertPopup) {
+            Alert(alertString);
+         }
+         
+         if (AlertExe) {
+            shellExecute(Cmdline, alertString);
+         }
+         
+         if (AlertMail) {
+            SendMail(alertString, mailBody);
+         }
+         
          return(Bars);
       } 
       
       return(0);
 }
 
+int shellExecute(string command, string args) {
+   ShellExecuteA(0, "open", command, args, 0, SW_SHOWNA);
+}
