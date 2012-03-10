@@ -31,7 +31,7 @@ int ShellExecuteA(int hWnd,string lpVerb,string lpFile,string lpParameters,strin
 
 But, we need to keep lpVerb,lpParameters and lpDirectory as NULL pointer to this function*/
 //---- So we need to define it as (look: "string" parameters defined as "int" to keep them NULL):
-int ShellExecuteA(int hWnd,int lpVerb,string lpFile,int lpParameters,int lpDirectory,int nCmdShow);
+int ShellExecuteA(int hWnd, int lpVerb, string lpFile, string lpParameters, int lpDirectory, int nCmdShow);
 //---- we need to close import definition here
 #import
 
