@@ -1,9 +1,9 @@
  
 #property show_inputs
  
-       double Lots              =          0.01;
-       bool   UseMoneyMgmt      =          True;
-extern double RiskPercent       =             0.5;
+extern double Lots              =          0.02;
+extern bool   UseMoneyMgmt      =          False;
+extern double RiskPercent       =             0.25;
 extern double StopLoss          =            10.0;
        string Input             = " Buy Price ";
 //+------------------------------------------------------------------+
