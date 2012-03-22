@@ -31,7 +31,7 @@ int ShellExecuteA(int hWnd,string lpVerb,string lpFile,string lpParameters,strin
 
 But, we need to keep lpVerb,lpParameters and lpDirectory as NULL pointer to this function*/
 //---- So we need to define it as (look: "string" parameters defined as "int" to keep them NULL):
-int ShellExecuteA(int hWnd,int lpVerb,string lpFile,int lpParameters,int lpDirectory,int nCmdShow);
+int ShellExecuteA(int hWnd, int lpVerb, string lpFile, string lpParameters, int lpDirectory, int nCmdShow);
 //---- we need to close import definition here
 #import
 
@@ -70,7 +70,6 @@ int Bars89EMA  = 0;
 int Bars144EMA  = 0;
 int Bars200SMA  = 0;
 
-string mailBody = "";
 double multiplier = 1.0;
 int digits;
 
@@ -79,7 +78,6 @@ int init() {
    if (digits == 5) multiplier = 10.0;
    Print("TouchEAAlerter init... happy trading...");
    
-   mailBody = MailBodyLine1 + "\n" + MailBodyLine2 + "\n" + MailBodyLine3  + "\n" + MailBodyLine4 + "\n" + MailBodyLine5 + "\n" + MailBodyLine6;
 
    return(0);
 }
@@ -182,6 +180,7 @@ int checkTouch(double price, string comment) {
          }
          
          if (AlertMail) {
+            string mailBody = "text:" + alertString + "\n" + MailBodyLine1 + "\n" + MailBodyLine2 + "\n" + MailBodyLine3  + "\n" + MailBodyLine4 + "\n" + MailBodyLine5 + "\n" + MailBodyLine6;
             SendMail(alertString, mailBody);
          }
          
