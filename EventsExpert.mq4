@@ -30,6 +30,7 @@ int ShellExecuteA(int hWnd, int lpVerb, string lpFile, string lpParameters, int 
 #import
 
 extern int MagicNumber = 0;
+extern string AccountDescription = "";
 extern bool   AlertPopup    = true;
 extern bool   AlertExe      = false;
 extern string Cmdline       = "notepad.exe";
@@ -47,14 +48,14 @@ int start()
     CheckEvents( MagicNumber );
  
     if ( eventBuyClosed_SL > 0 )
-        notify( ": Buy position was closed by StopLoss!" );
+        notify( AccountDescription + ": Buy position was closed by StopLoss!" );
  
     if ( eventBuyClosed_TP > 0 )
-        notify( ": Buy position was closed by TakeProfit!" );
+        notify( AccountDescription + ": Buy position was closed by TakeProfit!" );
  
     if ( eventBuyLimitOpened > 0 || eventBuyStopOpened > 0 || 
           eventSellLimitOpened > 0 || eventSellStopOpened > 0 )
-        notify( ": pending order triggered!" );
+        notify( AccountDescription + ": pending order triggered!" );
 
 return(0);
 }
