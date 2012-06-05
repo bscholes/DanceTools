@@ -44,7 +44,7 @@ extern string Cmdline       = "notepad.exe";
 
 extern bool   Trade5EMA     = false;
 extern bool   Trade10EMA    = true;
-extern bool   Trade21EMA    = false;
+extern bool   Trade21EMA    = true;
 extern bool   Trade35SMA    = true;
 extern bool   Trade50EMA    = true;
 extern bool   Trade89EMA    = true;
@@ -165,11 +165,12 @@ int checkTouch(double price, string comment) {
          Print("Bars" + Bars);
          Print(comment + " " + Bars10EMA);
       }
-      double distance = MathAbs(Bid - price);
+      double delta    = Bid - price;
+      double distance = MathAbs(delta);
       if(distance < CatchPips * Point * multiplier) {
          distance /= Point * multiplier;
          
-         string alertString = "PriceAlert " + comment + " on " + Symbol() + " " + Period() + " price " + price + " distance " + distance;
+         string alertString = "PriceAlert " + comment + " on " + Symbol() + " " + Period() + " price " + price + " distance " + delta + " (" + Bid + ")";
          
          if (AlertPopup) {
             Alert(alertString);
