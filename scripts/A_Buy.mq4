@@ -21,7 +21,7 @@ int start()
 
    double lots = GlobalVariableGet("ordersize");
 //----
-   int ticket=OrderSend(Symbol(),OP_BUY,lots,Ask,3,0,0,"",255,0,CLR_NONE);
+   int ticket=OrderSend(Symbol(),OP_BUY,lots,Ask,3,0,0,"", GlobalVariableGet("ordermagic"),0,CLR_NONE);
 
    if (ticket > 0) {
 	OrderSelect(ticket,SELECT_BY_TICKET);

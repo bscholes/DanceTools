@@ -3,8 +3,9 @@
  
 extern double Lots              =          0.02;
 extern bool   UseMoneyMgmt      =          False;
-extern double RiskPercent       =             0.25;
-extern double StopLoss          =            10.0;
+extern double RiskPercent       =          0.25;
+extern double StopLoss          =          10.0;
+extern int    orderMagic        =          255;
        string Input             = " Buy Price ";
 //+------------------------------------------------------------------+
 //| script program start function                                    |
@@ -27,6 +28,8 @@ int start() {
    GlobalVariableSet("ordersize", Lots);
    Print("Set LotSize to: " + Lots);
   }
+
+  GlobalVariableSet("ordermagic", orderMagic);
  
    return(0);
 }
