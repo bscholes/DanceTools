@@ -23,7 +23,7 @@ int start()
    double multiplier = 1.0;
    if (digits == 5) multiplier = 10.0;
   
-   int ticket=OrderSend(Symbol(), OP_SELLLIMIT, lots, price, 2, price + StopLoss*Point*multiplier, 0, "Touch", 255, 0, Red);
+   int ticket=OrderSend(Symbol(), OP_SELLLIMIT, lots, price, 2, price + StopLoss*Point*multiplier, 0, "Touch", 255, 0, CLR_NONE);
    return(0);
   }
 //+------------------------------------------------------------------+

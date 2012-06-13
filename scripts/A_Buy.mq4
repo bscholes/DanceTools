@@ -10,17 +10,26 @@
 //#property show_inputs
 
 extern double StopLoss = 10;
-extern double TakeProfit = 100;
+extern double TakeProfit = 20;
 
 //+------------------------------------------------------------------+
 //| script program start function                                    |
 //+------------------------------------------------------------------+
 int start()
   {
- 
+   if(IsTradeContextBusy()) Alert("Trade context is busy. Please wait");
+
    double lots = GlobalVariableGet("ordersize");
 //----
- int ticket=OrderSend(Symbol(),OP_BUY,lots,Ask,3,Ask-StopLoss*Point,Ask+TakeProfit*Point,"",255,0,Green);
+   int ticket=OrderSend(Symbol(),OP_BUY,lots,Ask,3,0,0,"",255,0,CLR_NONE);
+
+   if (ticket > 0) {
+	OrderSelect(ticket,SELECT_BY_TICKET);
+	OrderModify(OrderTicket(), OrderOpenPrice(), Ask-StopLoss*Point, Ask+TakeProfit*Point,0,CLR_NONE);
+   } else {
+     Alert("no order ticket returned!");
+   }
+	
    return(0);
   }
 //+------------------------------------------------------------------+
