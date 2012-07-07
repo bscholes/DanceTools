@@ -20,14 +20,17 @@ int start()
   {
    double lots = GlobalVariableGet("ordersize");
 //----
+   Comment("Selling " + DoubleToStr(lots, 2) + " lots at market");
  int ticket=OrderSend(Symbol(),OP_SELL,lots,Bid,3,0,0,"", GlobalVariableGet("ordermagic"),0,CLR_NONE);
 
    if (ticket > 0) {
 	OrderSelect(ticket,SELECT_BY_TICKET);
 	OrderModify(OrderTicket(), OrderOpenPrice(), Bid+StopLoss*Point, Bid-TakeProfit*Point,0,CLR_NONE);
 	Screenshot("Entry");
+	Comment("");
    } else {
      Alert("no order ticket returned!");
+     Comment("");
    }
    return(0);
   }

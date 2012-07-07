@@ -35,6 +35,8 @@ int    giSlippage;
 //| script program start function                                    |
 //+------------------------------------------------------------------+
 void start() {
+  Comment("EMERGENCY CLOSE ALL");
+
   int iOrders=OrdersTotal()-1, i;
   
   if(CloseOpenOrdersAndCancelPending) {
@@ -128,6 +130,8 @@ void start() {
       }
     }
   }
+
+  Comment("");
 }
 
 //+------------------------------------------------------------------+

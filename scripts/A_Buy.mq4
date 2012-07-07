@@ -21,6 +21,7 @@ int start()
    if(IsTradeContextBusy()) Alert("Trade context is busy. Please wait");
 
    double lots = GlobalVariableGet("ordersize");
+   Comment("Buying " + DoubleToStr(lots, 2) + " lots at market");
 //----
    int ticket=OrderSend(Symbol(),OP_BUY,lots,Ask,3,0,0,"", GlobalVariableGet("ordermagic"),0,CLR_NONE);
 
@@ -28,8 +29,10 @@ int start()
 	OrderSelect(ticket,SELECT_BY_TICKET);
 	OrderModify(OrderTicket(), OrderOpenPrice(), Ask-StopLoss*Point, Ask+TakeProfit*Point,0,CLR_NONE);
 	Screenshot("Entry");
+	Comment("");
    } else {
      Alert("no order ticket returned!");
+     Comment("");
    }
 	
    return(0);

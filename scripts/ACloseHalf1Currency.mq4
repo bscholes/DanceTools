@@ -6,9 +6,6 @@
 #define SHORT         -1
 #define ALL           0
 
-#property copyright "Go Markets, Programmed by OneStepRemoved.com"
-#property link      "www.gomarketsaus.com"
-
 #include <stdlib.mqh>
 
 int Slippage = 2;
