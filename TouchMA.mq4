@@ -8,6 +8,7 @@
 
 //--- input parameters
 extern bool   Long          = true;
+extern bool   interactive   = false;
 
 extern double CatchPips     = 1.5;
 extern double StopLoss      = 10.0;
@@ -88,14 +89,14 @@ int start() {
             cmd = OP_BUY;
             price = Ask;
             stop = price - StopLoss * Point * multiplier; 
-            PlaySound("analyze buy.wav");
+            if(interactive) PlaySound("analyze buy.wav");
          } else {
             cmd = OP_SELL;
             price = Bid;
             stop = price + StopLoss * Point * multiplier;
-            PlaySound("analyze sell.wav");
+            if(interactive) PlaySound("analyze sell.wav");
          }
-         Sleep(2000); // to let the sound play
+         if(interactive) Sleep(2000); // to let the sound play
       } else {
          return(0);
       }
@@ -111,8 +112,11 @@ int start() {
          Print("Stop loss:" + stop);
          Print("StopLevel: " + stopLevel);
       }
-      
-      ticket=OrderSend(Symbol(), cmd, lots, price, 1 * Point * multiplier, stop, 0, comment, 255, 0, CLR_NONE);
+
+      double orderStop = 0;
+      if(interactive) orderStop = stop;
+
+      ticket=OrderSend(Symbol(), cmd, lots, price, 1 * Point * multiplier, orderStop, 0, comment, 255, 0, CLR_NONE);
       int err=GetLastError();
       if (err != 0) ticket = 0;
    } else if(ticket > 0) {
