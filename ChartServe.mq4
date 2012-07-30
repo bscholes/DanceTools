@@ -24,11 +24,13 @@ void timer() {
     }
 
     RefreshRates();
-    start();
+    screenshot();
    }
 }
 
-int start() {
+int start() {}
+
+int screenshot() {
    Comment(StringConcatenate(TimeHour(TimeCurrent()), ":", TimeMinute(TimeCurrent()), ":", TimeSeconds(TimeCurrent())));
    WindowScreenShot(StringConcatenate("chartserve\\", Symbol(), Period(), ".gif"), ImageWidth, ImageHeight);
    Comment("");
