@@ -9,8 +9,8 @@
 
 //#property show_inputs
 
-extern double StopLoss = 10;
-extern double TakeProfit = 20;
+extern double StopLoss = 120;
+//extern double TakeProfit = 0;
 extern bool WriteScreenshots = true;
 
 //+------------------------------------------------------------------+
@@ -27,7 +27,7 @@ int start()
 
    if (ticket > 0) {
 	OrderSelect(ticket,SELECT_BY_TICKET);
-	OrderModify(OrderTicket(), OrderOpenPrice(), Ask-StopLoss*Point, Ask+TakeProfit*Point,0,CLR_NONE);
+	OrderModify(OrderTicket(), OrderOpenPrice(), Ask-StopLoss*Point, 0 /*Ask+TakeProfit*Point*/,0,CLR_NONE);
 	Screenshot("Entry");
 	Comment("");
    } else {
